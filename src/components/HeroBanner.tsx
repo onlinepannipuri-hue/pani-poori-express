@@ -1,80 +1,89 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import heroImg from "@/assets/hero-panipuri.jpg";
 import { getTimingText } from "@/lib/store-status";
 
 const HeroBanner = () => {
   const whatsappLink = "https://wa.me/919787927818?text=Hi!%20I%20want%20to%20order%20from%20Online%20Pani%20Poori!";
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.from(".hero-content > *", {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+      })
+      .from(".hero-image", {
+        scale: 1.1,
+        opacity: 0,
+        duration: 1.5,
+      }, 0); // Start at the same time as the first animation
+
+      gsap.to(".hero-offer", {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0">
-        <img src={heroImg} alt="Delicious Pani Puri" className="w-full h-full object-cover" width={1920} height={1080} />
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/60 to-transparent" />
+    <section ref={heroRef} className="relative overflow-hidden min-h-[550px] flex items-center">
+      <div className="absolute inset-0 z-0">
+        <img src={heroImg} alt="Delicious Pani Puri" className="hero-image w-full h-full object-cover" width={1920} height={1080} />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/40 to-transparent" />
       </div>
 
-      <div className="relative container py-20 md:py-32 text-primary-foreground">
-        <div className="max-w-lg space-y-5">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block bg-secondary text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-bold animate-float"
-          >
-            🔥 Today's Offer: Family Pack @ ₹120 only!
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="font-display text-4xl md:text-6xl font-extrabold leading-tight"
-          >
-            Online Pani Poori
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-lg md:text-xl opacity-90 font-medium"
-          >
-            Fresh • Hygienic • Delivered Fast
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.75 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-sm"
-          >
-            📍 Chennai | {getTimingText()}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex flex-wrap gap-3 pt-2"
-          >
+      <div className="relative container py-24 md:py-40 text-primary-foreground z-10">
+        <div className="hero-content max-w-xl space-y-6">
+          <div className="hero-offer inline-flex items-center gap-2 bg-secondary text-white px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
+            <span className="flex h-2 w-2 rounded-full bg-white animate-ping"></span>
+            Today's Offer: Family Pack @ ₹120 only!
+          </div>
+          <h1 className="font-display text-5xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase drop-shadow-2xl">
+            Online <span className="text-primary italic">Pani</span> <br /> Poori
+          </h1>
+          <p className="text-xl md:text-3xl text-white/90 font-medium tracking-tight">
+            Freshly Prepared. Hygienically Packed. <br className="hidden md:block" /> Delivered at Lightning Speed.
+          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-6">
             <a
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-full font-bold text-base shadow-warm hover:scale-105 transition-transform animate-pulse-glow"
+              className="group inline-flex items-center gap-3 bg-whatsapp text-white px-10 py-5 rounded-full font-black text-xl shadow-warm-lg hover:scale-105 transition-all duration-300 animate-pulse-glow"
             >
-              📲 Order Now on WhatsApp
+              <i className="fa-brands fa-whatsapp text-3xl"></i>
+              ORDER NOW
             </a>
-            <a
-              href="#menu"
-              className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur text-primary-foreground px-6 py-3 rounded-full font-bold text-base border border-primary-foreground/30 hover:bg-primary-foreground/30 transition"
-            >
-              🍽️ View Menu
-            </a>
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.6 }}
-            transition={{ duration: 0.5, delay: 0.65 }}
-            className="text-xs"
-          >
-            ⏳ Limited slots available today – order before 9 PM!
-          </motion.p>
+            <div className="flex flex-col gap-1 ml-2">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-white/50">
+                Current Status
+              </p>
+              <p className="text-sm font-bold text-white flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                {getTimingText()}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-8 pt-8 border-t border-white/10">
+             <div className="flex flex-col">
+                <span className="text-2xl font-black">500+</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">Daily Orders</span>
+             </div>
+             <div className="flex flex-col">
+                <span className="text-2xl font-black">4.9/5</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">Customer Rating</span>
+             </div>
+          </div>
         </div>
       </div>
     </section>

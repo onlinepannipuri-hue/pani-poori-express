@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import { ShoppingCart, Menu, X, Phone } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { isStoreOpen } from "@/lib/store-status";
@@ -11,6 +12,7 @@ const Navbar = ({ onCartClick }: NavbarProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { count } = useCart();
   const open = isStoreOpen();
+  const navRef = useRef<HTMLElement>(null);
 
   const links = [
     { label: "Menu", href: "#menu" },
@@ -19,8 +21,17 @@ const Navbar = ({ onCartClick }: NavbarProps) => {
     { label: "Contact", href: "#contact" },
   ];
 
+  useEffect(() => {
+    gsap.from(navRef.current, {
+      y: -100,
+      opacity: 0,
+      duration: 1,
+      ease: "power4.out",
+    });
+  }, []);
+
   return (
-    <nav className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b shadow-card">
+    <nav ref={navRef} className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b shadow-card">
       <div className="container flex items-center justify-between h-16">
         <a href="#" className="font-display text-xl font-bold text-gradient">
           Online Pani Poori

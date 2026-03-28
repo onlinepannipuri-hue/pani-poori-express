@@ -3,6 +3,7 @@ import { CartProvider } from "@/lib/cart";
 import Navbar from "@/components/Navbar";
 import HeroBanner from "@/components/HeroBanner";
 import MenuSection from "@/components/MenuSection";
+import StatsCounter from "@/components/StatsCounter";
 import CartDrawer from "@/components/CartDrawer";
 import SocialProof from "@/components/SocialProof";
 import HygieneSection from "@/components/HygieneSection";
@@ -25,6 +26,7 @@ const Index = () => {
         <StickyOrderBar onCartClick={() => setCartOpen(true)} />
         <SocialProof />
         <MenuSection />
+        <StatsCounter />
         <HygieneSection />
         <ReviewsSection />
         <MapSection />
