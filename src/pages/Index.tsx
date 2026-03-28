@@ -1,16 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { CartProvider } from "@/lib/cart";
+import Navbar from "@/components/Navbar";
+import HeroBanner from "@/components/HeroBanner";
+import MenuSection from "@/components/MenuSection";
+import CartDrawer from "@/components/CartDrawer";
+import SocialProof from "@/components/SocialProof";
+import HygieneSection from "@/components/HygieneSection";
+import ReviewsSection from "@/components/ReviewsSection";
+import FAQSection from "@/components/FAQSection";
+import MapSection from "@/components/MapSection";
+import FloatingButtons from "@/components/FloatingButtons";
+import Chatbot from "@/components/Chatbot";
+import Footer from "@/components/Footer";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [cartOpen, setCartOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <CartProvider>
+      <div className="min-h-screen">
+        <Navbar onCartClick={() => setCartOpen(true)} />
+        <HeroBanner />
+        <SocialProof />
+        <MenuSection />
+        <HygieneSection />
+        <ReviewsSection />
+        <MapSection />
+        <FAQSection />
+        <Footer />
+        <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+        <FloatingButtons />
+        <Chatbot />
+      </div>
+    </CartProvider>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
