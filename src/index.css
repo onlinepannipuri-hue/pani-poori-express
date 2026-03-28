@@ -6,42 +6,43 @@
 
 @layer base {
   :root {
-    --background: 40 30% 99%;
-    --foreground: 222 47% 11%;
+    --background: 40 25% 98%;
+    --foreground: 222 47% 7%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 222 47% 7%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 222 47% 7%;
 
-    --primary: 38 92% 50%;
+    --primary: 43 85% 50%; /* Sophisticated Gold-Amber */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 16 90% 50%;
+    --secondary: 25 85% 45%; /* Deep Terracotta */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 215.4 16.3% 40.9%;
 
-    --accent: 145 60% 40%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 160 84% 18%; /* Deep Emerald for Freshness */
+    --accent-foreground: 160 84% 95%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 38 92% 50%;
+    --ring: 43 85% 50%;
 
-    --radius: 1.25rem;
+    --radius: 1.5rem;
 
     --whatsapp: 142 70% 49%; /* #25D366 */
     
-    --hero-gradient: linear-gradient(135deg, hsl(38 92% 50%), hsl(16 90% 50%));
-    --warm-glow: 0 8px 32px -8px hsl(38 92% 50% / 0.3);
-    --card-shadow: 0 10px 40px -10px hsl(222 47% 11% / 0.08);
-    --card-hover-shadow: 0 20px 60px -15px hsl(38 92% 50% / 0.25);
+    --hero-gradient: linear-gradient(135deg, hsl(43 85% 50%), hsl(25 85% 45%));
+    --warm-glow: 0 8px 32px -8px hsl(43 85% 50% / 0.3);
+    --card-shadow: 0 12px 48px -12px hsl(222 47% 7% / 0.08);
+    --card-hover-shadow: 0 24px 64px -16px hsl(43 85% 50% / 0.25);
+    --footer-bg: 222 47% 4%;
   }
 }
 
@@ -78,6 +79,18 @@
   }
   .glass {
     @apply bg-white/70 backdrop-blur-lg border border-white/20;
+  }
+  .card-premium {
+    @apply bg-white border border-black/5 shadow-card hover:shadow-card-hover transition-all duration-500 rounded-3xl overflow-hidden;
+  }
+  .text-premium-xs {
+    @apply text-[10px] font-bold uppercase tracking-[0.25em] leading-none;
+  }
+  .text-premium-sm {
+    @apply text-xs font-semibold uppercase tracking-[0.15em] leading-relaxed;
+  }
+  .bg-footer {
+    background-color: hsl(var(--footer-bg));
   }
 }
 

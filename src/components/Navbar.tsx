@@ -31,51 +31,55 @@ const Navbar = ({ onCartClick }: NavbarProps) => {
   }, []);
 
   return (
-    <nav ref={navRef} className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b shadow-card">
-      <div className="container flex items-center justify-between h-16">
-        <a href="#" className="font-display text-xl font-bold text-gradient">
+    <nav ref={navRef} className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-black/5 shadow-sm">
+      <div className="container flex items-center justify-between h-20">
+        <a href="#" className="font-display text-2xl font-black text-gradient uppercase tracking-tighter">
           Online Pani Poori
         </a>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-10">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            <a key={l.href} href={l.href} className="text-premium-sm text-foreground/70 hover:text-primary transition-all duration-300">
               {l.label}
             </a>
           ))}
-          <span className={`text-xs font-semibold px-3 py-1 rounded-full ${open ? "bg-accent text-accent-foreground" : "bg-destructive text-destructive-foreground"}`}>
-            {open ? "🟢 Open Now" : "🔴 Closed"}
-          </span>
+          <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full border ${open ? "bg-accent/5 border-accent/20 text-accent" : "bg-destructive/5 border-destructive/20 text-destructive"}`}>
+            <span className={`w-2 h-2 rounded-full ${open ? "bg-accent animate-pulse" : "bg-destructive shadow-[0_0_8px_rgba(239,68,68,0.4)]"}`}></span>
+            <span className="text-premium-xs">{open ? "Open Now" : "Closed"}</span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <a href="tel:9787927818" className="md:hidden p-2 rounded-full bg-accent text-accent-foreground">
+        <div className="flex items-center gap-4">
+          <a href="tel:9787927818" className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-accent/10 text-accent border border-accent/20">
             <Phone size={18} />
           </a>
-          <button onClick={onCartClick} className="relative p-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition">
-            <ShoppingCart size={18} />
+          <button onClick={onCartClick} className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-primary text-primary-foreground hover:shadow-warm transition-all duration-300">
+            <ShoppingCart size={20} />
             {count > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-secondary text-secondary-foreground text-xs font-bold rounded-full flex items-center justify-center animate-bounce-in">
+              <span className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-secondary text-secondary-foreground text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-lg animate-bounce-in">
                 {count}
               </span>
             )}
           </button>
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2">
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-foreground/70">
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-card border-t p-4 space-y-3">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="block text-sm font-medium text-foreground hover:text-primary">
-              {l.label}
-            </a>
-          ))}
-          <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full ${open ? "bg-accent text-accent-foreground" : "bg-destructive text-destructive-foreground"}`}>
-            {open ? "🟢 Open Now" : "🔴 Closed"}
-          </span>
+        <div className="md:hidden bg-white border-t p-6 space-y-6 animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col gap-4">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-foreground/80 hover:text-primary transition-colors">
+                {l.label}
+              </a>
+            ))}
+          </div>
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${open ? "bg-accent/5 border-accent/20 text-accent" : "bg-destructive/5 border-destructive/20 text-destructive"}`}>
+            <span className={`w-2 h-2 rounded-full ${open ? "bg-accent animate-pulse" : "bg-destructive"}`}></span>
+            <span className="text-premium-xs">{open ? "Open Now" : "Closed"}</span>
+          </div>
         </div>
       )}
     </nav>
