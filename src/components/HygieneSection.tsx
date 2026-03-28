@@ -1,5 +1,9 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ShieldCheck, Package, Sparkles, ThermometerSun } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const items = [
   { icon: ShieldCheck, title: "Clean Preparation", desc: "100% hygienic kitchen standards" },
@@ -8,48 +12,69 @@ const items = [
   { icon: ThermometerSun, title: "Right Temperature", desc: "Served fresh, never reheated" },
 ];
 
-const HygieneSection = () => (
-  <section className="py-16">
-    <div className="container">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-3xl md:text-4xl font-display font-bold text-center mb-2"
-      >
-        🧼 Hygiene First
-      </motion.h2>
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-center text-muted-foreground mb-10"
-      >
-        Your health is our priority
-      </motion.p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {items.map((item, i) => (
-          <motion.div
-            key={item.title}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            whileHover={{ y: -4 }}
-            className="bg-card rounded-lg p-5 text-center shadow-card hover:shadow-card-hover transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
-              <item.icon className="text-accent" size={24} />
+const HygieneSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header entrance
+      gsap.from(".hygiene-header", {
+        scrollTrigger: {
+          trigger: ".hygiene-header",
+          start: "top 85%",
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      // Cards staggered entry
+      gsap.from(".hygiene-card", {
+        scrollTrigger: {
+          trigger: ".hygiene-grid",
+          start: "top 80%",
+        },
+        scale: 0.9,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="py-24 bg-background overflow-hidden">
+      <div className="container">
+        <div className="hygiene-header text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-display font-black mb-4 tracking-tight">
+            🧼 Hygiene First
+          </h2>
+          <p className="text-lg text-muted-foreground font-medium">
+            Your health is our single biggest priority. 🛡️
+          </p>
+        </div>
+
+        <div className="hygiene-grid grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {items.map((item) => (
+            <div
+              key={item.title}
+              className="hygiene-card bg-card rounded-2xl p-8 text-center shadow-card border border-border/50 hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2 group"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+                <item.icon className="text-primary" size={32} />
+              </div>
+              <h3 className="font-display font-black text-base mb-2 uppercase tracking-tight">{item.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
             </div>
-            <h3 className="font-display font-bold text-sm mb-1">{item.title}</h3>
-            <p className="text-xs text-muted-foreground">{item.desc}</p>
-          </motion.div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default HygieneSection;

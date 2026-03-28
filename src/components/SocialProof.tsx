@@ -1,5 +1,9 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Users, Star, Clock, MapPin } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
   { icon: Users, label: "Happy Customers", value: "100+" },
@@ -8,27 +12,42 @@ const stats = [
   { icon: MapPin, label: "Delivery Radius", value: "5 KM" },
 ];
 
-const SocialProof = () => (
-  <section className="py-10 bg-hero-gradient">
-    <div className="container">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {stats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="text-center text-primary-foreground"
-          >
-            <s.icon className="mx-auto mb-2 opacity-80" size={28} />
-            <p className="font-display text-2xl md:text-3xl font-extrabold">{s.value}</p>
-            <p className="text-xs opacity-75">{s.label}</p>
-          </motion.div>
-        ))}
+const SocialProof = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".stat-item", {
+        scrollTrigger: {
+          trigger: ".social-grid",
+          start: "top 90%",
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power3.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="py-12 bg-hero-gradient shadow-warm">
+      <div className="container">
+        <div className="social-grid grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((s) => (
+            <div key={s.label} className="stat-item text-center text-primary-foreground">
+              <s.icon className="mx-auto mb-3 opacity-60" size={32} />
+              <p className="font-display text-3xl md:text-4xl font-black tracking-tight mb-1">{s.value}</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60 leading-none">{s.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default SocialProof;

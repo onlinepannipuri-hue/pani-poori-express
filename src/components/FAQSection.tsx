@@ -1,5 +1,9 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const faqs = [
   { q: "What areas do you deliver to?", a: "We deliver within a 5 KM radius of our Chennai location. Check the map below for our coverage area." },
@@ -14,57 +18,94 @@ const faqs = [
   { q: "What if I have a complaint?", a: "Please reach out via WhatsApp or email us at onlinepannipuri@gmail.com. We'll resolve it immediately!" },
 ];
 
-const FAQSection = () => (
-  <section id="faq" className="py-16">
-    <div className="container max-w-2xl">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-3xl md:text-4xl font-display font-bold text-center mb-2"
-      >
-        ❓ Frequently Asked
-      </motion.h2>
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-center text-muted-foreground mb-10"
-      >
-        Got questions? We've got answers!
-      </motion.p>
-      <Accordion type="single" collapsible className="space-y-2">
-        {faqs.map((faq, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: i * 0.05 }}
-          >
-            <AccordionItem value={`faq-${i}`} className="bg-card rounded-lg px-4 shadow-card border-none">
-              <AccordionTrigger className="text-sm font-semibold text-left hover:no-underline">{faq.q}</AccordionTrigger>
-              <AccordionContent className="text-sm text-muted-foreground">{faq.a}</AccordionContent>
+const FAQSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header entrance
+      gsap.from(".faq-header", {
+        scrollTrigger: {
+          trigger: ".faq-header",
+          start: "top 85%",
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      // Accordion items staggered entry
+      gsap.from(".faq-item", {
+        scrollTrigger: {
+          trigger: ".faq-list",
+          start: "top 80%",
+        },
+        x: -20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power2.out",
+      });
+
+      // CTA entrance
+      gsap.from(".faq-cta", {
+        scrollTrigger: {
+          trigger: ".faq-cta",
+          start: "top 90%",
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.2,
+        ease: "power3.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section id="faq" ref={sectionRef} className="py-24 bg-background overflow-hidden border-t border-border/50">
+      <div className="container max-w-3xl">
+        <div className="faq-header text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-display font-black mb-4 tracking-tight">
+            ❓ Frequently Asked
+          </h2>
+          <p className="text-lg text-muted-foreground font-medium">
+            Got questions? We've got answers! 💡
+          </p>
+        </div>
+
+        <Accordion type="single" collapsible className="faq-list space-y-3">
+          {faqs.map((faq, i) => (
+            <AccordionItem 
+              key={i} 
+              value={`faq-${i}`} 
+              className="faq-item bg-card rounded-2xl px-6 shadow-card border border-border/50 hover:border-primary/20 transition-colors duration-300"
+            >
+              <AccordionTrigger className="text-base font-bold text-left hover:no-underline py-5 leading-tight">
+                {faq.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-5">
+                {faq.a}
+              </AccordionContent>
             </AccordionItem>
-          </motion.div>
-        ))}
-      </Accordion>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="text-center mt-8"
-      >
-        <p className="text-sm text-muted-foreground mb-2">Still have questions?</p>
-        <a href="mailto:onlinepannipuri@gmail.com" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 transition">
-          ✉️ Email Us
-        </a>
-      </motion.div>
-    </div>
-  </section>
-);
+          ))}
+        </Accordion>
+
+        <div className="faq-cta text-center mt-12 bg-secondary/5 rounded-3xl p-8 border border-secondary/10">
+          <p className="text-base text-muted-foreground font-medium mb-4 italic">Still have a specific question?</p>
+          <a 
+            href="mailto:onlinepannipuri@gmail.com" 
+            className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-10 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-warm-lg hover:scale-105 transition-all duration-300"
+          >
+            ✉️ Get in Touch
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default FAQSection;
