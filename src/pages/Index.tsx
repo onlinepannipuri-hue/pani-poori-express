@@ -22,6 +22,7 @@ const Index = () => {
       <div className="min-h-screen">
         <Navbar onCartClick={() => setCartOpen(true)} />
         <HeroBanner />
+        <StickyOrderBar onCartClick={() => setCartOpen(true)} />
         <SocialProof />
         <MenuSection />
         <HygieneSection />
