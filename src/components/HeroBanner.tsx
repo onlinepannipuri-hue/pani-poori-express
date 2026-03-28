@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import heroImg from "@/assets/hero-panipuri.jpg";
 import { getTimingText } from "@/lib/store-status";
 
@@ -13,17 +14,44 @@ const HeroBanner = () => {
 
       <div className="relative container py-20 md:py-32 text-primary-foreground">
         <div className="max-w-lg space-y-5">
-          <div className="inline-block bg-secondary text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-bold animate-float">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-block bg-secondary text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-bold animate-float"
+          >
             🔥 Today's Offer: Family Pack @ ₹120 only!
-          </div>
-          <h1 className="font-display text-4xl md:text-6xl font-extrabold leading-tight">
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="font-display text-4xl md:text-6xl font-extrabold leading-tight"
+          >
             Online Pani Poori
-          </h1>
-          <p className="text-lg md:text-xl opacity-90 font-medium">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-lg md:text-xl opacity-90 font-medium"
+          >
             Fresh • Hygienic • Delivered Fast
-          </p>
-          <p className="text-sm opacity-75">📍 Chennai | {getTimingText()}</p>
-          <div className="flex flex-wrap gap-3 pt-2">
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.75 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-sm"
+          >
+            📍 Chennai | {getTimingText()}
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-wrap gap-3 pt-2"
+          >
             <a
               href={whatsappLink}
               target="_blank"
@@ -38,8 +66,15 @@ const HeroBanner = () => {
             >
               🍽️ View Menu
             </a>
-          </div>
-          <p className="text-xs opacity-60">⏳ Limited slots available today – order before 9 PM!</p>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.65 }}
+            className="text-xs"
+          >
+            ⏳ Limited slots available today – order before 9 PM!
+          </motion.p>
         </div>
       </div>
     </section>

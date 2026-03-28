@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
@@ -16,22 +17,52 @@ const faqs = [
 const FAQSection = () => (
   <section id="faq" className="py-16">
     <div className="container max-w-2xl">
-      <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-2">❓ Frequently Asked</h2>
-      <p className="text-center text-muted-foreground mb-10">Got questions? We've got answers!</p>
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="text-3xl md:text-4xl font-display font-bold text-center mb-2"
+      >
+        ❓ Frequently Asked
+      </motion.h2>
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-center text-muted-foreground mb-10"
+      >
+        Got questions? We've got answers!
+      </motion.p>
       <Accordion type="single" collapsible className="space-y-2">
         {faqs.map((faq, i) => (
-          <AccordionItem key={i} value={`faq-${i}`} className="bg-card rounded-lg px-4 shadow-card border-none">
-            <AccordionTrigger className="text-sm font-semibold text-left hover:no-underline">{faq.q}</AccordionTrigger>
-            <AccordionContent className="text-sm text-muted-foreground">{faq.a}</AccordionContent>
-          </AccordionItem>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: i * 0.05 }}
+          >
+            <AccordionItem value={`faq-${i}`} className="bg-card rounded-lg px-4 shadow-card border-none">
+              <AccordionTrigger className="text-sm font-semibold text-left hover:no-underline">{faq.q}</AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground">{faq.a}</AccordionContent>
+            </AccordionItem>
+          </motion.div>
         ))}
       </Accordion>
-      <div className="text-center mt-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="text-center mt-8"
+      >
         <p className="text-sm text-muted-foreground mb-2">Still have questions?</p>
         <a href="mailto:onlinepannipuri@gmail.com" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 transition">
           ✉️ Email Us
         </a>
-      </div>
+      </motion.div>
     </div>
   </section>
 );
