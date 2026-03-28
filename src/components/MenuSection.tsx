@@ -31,10 +31,10 @@ const MenuSection = () => {
           trigger: ".menu-header",
           start: "top 85%",
         },
-        y: 20,
+        y: 40,
         opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: 1.2,
+        ease: "power4.out",
       });
 
       // Cards staggered animation
@@ -43,9 +43,9 @@ const MenuSection = () => {
           trigger: ".menu-grid",
           start: "top 80%",
         },
-        y: 40,
+        y: 60,
         opacity: 0,
-        duration: 0.6,
+        duration: 1,
         stagger: 0.1,
         ease: "power3.out",
       });
@@ -55,46 +55,54 @@ const MenuSection = () => {
   }, []);
 
   return (
-    <section id="menu" ref={sectionRef} className="py-20 bg-muted/40 overflow-hidden">
-      <div className="container">
-        <div className="menu-header text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 tracking-tight">
-            Our Menu
+    <section id="menu" ref={sectionRef} className="py-32 bg-background relative overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] translate-x-1/3 pointer-events-none" />
+      
+      <div className="container relative z-10">
+        <div className="menu-header text-center mb-24">
+          <span className="text-premium-sm text-primary mb-4 block">Curated Selection</span>
+          <h2 className="text-4xl md:text-7xl font-display font-black mb-6 tracking-tight uppercase leading-none">
+            Our <span className="text-primary italic">Menu</span>
           </h2>
-          <p className="text-lg text-muted-foreground">
-            Freshly made with love, delivered to your door 🚀
+          <p className="text-lg text-muted-foreground font-medium max-w-xl mx-auto">
+            Freshly prepared with authentic ingredients, delivered straight to your doorstep. 🚀
           </p>
         </div>
 
-        <div className="menu-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+        <div className="menu-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 md:gap-10">
           {menuItems.map((item) => (
             <div
               key={item.id}
-              className="menu-card group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2"
+              className="menu-card card-premium group flex flex-col h-full"
             >
-              <div className="relative aspect-square overflow-hidden">
+              <div className="relative aspect-square overflow-hidden mb-6 rounded-2xl">
                 <img 
                   src={item.img} 
                   alt={item.name} 
                   loading="lazy" 
                   width={512} 
                   height={512} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
                 />
-                <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] uppercase tracking-wider font-black px-3 py-1 rounded-full shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="absolute top-4 left-4 bg-primary text-primary-foreground text-premium-xs px-4 py-2 rounded-full shadow-xl">
                   {item.tag}
                 </span>
               </div>
-              <div className="p-5 space-y-4">
-                <h3 className="font-display font-bold text-base leading-tight min-h-[40px]">{item.name}</h3>
-                <div className="flex items-center justify-between">
-                  <span className="text-primary font-black text-xl">₹{item.price}</span>
+              <div className="flex flex-col flex-grow justify-between gap-6">
+                <div>
+                  <h3 className="font-display font-black text-xl mb-2 tracking-tight uppercase">{item.name}</h3>
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Premium Quality</p>
+                </div>
+                <div className="flex items-center justify-between mt-auto pt-6 border-t border-black/5">
+                  <span className="text-primary font-black text-2xl">₹{item.price}</span>
                   <button
                     onClick={() => addItem({ id: item.id, name: item.name, price: item.price })}
-                    className="add-btn bg-primary text-primary-foreground p-2 rounded-xl active:scale-90 hover:scale-110 transition-all shadow-warm-lg"
+                    className="w-12 h-12 flex items-center justify-center bg-footer text-white rounded-2xl active:scale-90 hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-xl group/btn"
                     aria-label={`Add ${item.name} to cart`}
                   >
-                    <Plus size={20} />
+                    <Plus size={24} className="group-hover/btn:scale-110 transition-transform" />
                   </button>
                 </div>
               </div>

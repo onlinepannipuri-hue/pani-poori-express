@@ -14,14 +14,21 @@ const reviews = [
 ];
 
 const ReviewCard = ({ r }: { r: typeof reviews[0] }) => (
-  <div className="review-card bg-card rounded-2xl p-6 shadow-card border border-border/50 hover:border-primary/30 transition-colors duration-500">
-    <div className="flex gap-1 mb-4">
-      {Array.from({ length: r.rating }).map((_, j) => (
-        <Star key={j} size={16} className="fill-secondary text-secondary" />
-      ))}
+  <div className="review-card card-premium p-8 flex flex-col justify-between group h-full">
+    <div>
+      <div className="flex gap-1 mb-6">
+        {Array.from({ length: r.rating }).map((_, j) => (
+          <Star key={j} size={14} className="fill-primary text-primary" strokeWidth={0} />
+        ))}
+      </div>
+      <p className="text-base text-muted-foreground mb-8 italic leading-relaxed font-medium">"{r.text}"</p>
     </div>
-    <p className="text-base text-muted-foreground mb-4 italic leading-relaxed">"{r.text}"</p>
-    <p className="font-display font-black text-sm uppercase tracking-widest text-primary">{r.name}</p>
+    <div className="flex items-center gap-3">
+      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-black text-primary uppercase">
+        {r.name.charAt(0)}
+      </div>
+      <p className="text-premium-xs text-primary">{r.name}</p>
+    </div>
   </div>
 );
 
@@ -36,10 +43,10 @@ const ReviewsSection = () => {
           trigger: ".reviews-header",
           start: "top 85%",
         },
-        y: 20,
+        y: 40,
         opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: 1.2,
+        ease: "power4.out",
       });
 
       // Cards staggered entry
@@ -48,10 +55,10 @@ const ReviewsSection = () => {
           trigger: ".reviews-grid",
           start: "top 80%",
         },
-        y: 40,
+        y: 50,
         opacity: 0,
-        duration: 0.6,
-        stagger: 0.15,
+        duration: 1,
+        stagger: 0.1,
         ease: "power3.out",
       });
     }, sectionRef);
@@ -60,21 +67,26 @@ const ReviewsSection = () => {
   }, []);
 
   return (
-    <section id="reviews" ref={sectionRef} className="py-24 bg-muted/40 overflow-hidden">
-      <div className="container">
-        <div className="reviews-header text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-black mb-4 tracking-tighter uppercase grayscale opacity-30">
-            Social Proof
+    <section id="reviews" ref={sectionRef} className="py-32 bg-background relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="absolute top-1/2 left-0 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+      
+      <div className="container relative z-10">
+        <div className="reviews-header text-center mb-24">
+          <span className="text-premium-sm text-primary mb-4 block">Testimonials</span>
+          <h2 className="text-4xl md:text-7xl font-display font-black mb-6 tracking-tighter uppercase leading-none opacity-10 absolute left-1/2 -translate-x-1/2 top-4 w-full select-none">
+            Trusted by Hundreds
           </h2>
-          <h3 className="text-4xl md:text-6xl font-display font-black mb-6 tracking-tight relative -top-6">
-            ⭐ What Customers Say
+          <h3 className="text-4xl md:text-6xl font-display font-black mb-6 tracking-tight relative z-10">
+            Real <span className="text-primary italic font-display">Stories</span>
           </h3>
-          <p className="text-lg text-muted-foreground font-medium">
-            100+ Happy Customers and counting! 🚀
+          <p className="text-lg text-muted-foreground font-medium max-w-xl mx-auto">
+            100+ Happy Customers in Chennai and counting! 🚀
           </p>
         </div>
 
-        <div className="reviews-grid grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="reviews-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {reviews.map((r, i) => (
             <ReviewCard key={i} r={r} />
           ))}
