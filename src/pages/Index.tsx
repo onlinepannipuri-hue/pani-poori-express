@@ -12,6 +12,7 @@ import MapSection from "@/components/MapSection";
 import FloatingButtons from "@/components/FloatingButtons";
 import Chatbot from "@/components/Chatbot";
 import Footer from "@/components/Footer";
+import StickyOrderBar from "@/components/StickyOrderBar";
 
 const Index = () => {
   const [cartOpen, setCartOpen] = useState(false);
